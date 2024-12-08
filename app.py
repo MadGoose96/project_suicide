@@ -17,12 +17,31 @@ page = st.sidebar.radio("Go to", ["Overview", "Visualizations", "Analysis", "Fan
 # Page 1: Overview
 if page == "Overview":
     st.title("Dataset Overview")
-    st.write("Here is the dataset being analyzed:")
-    st.dataframe(suicide_data)
+
+    # Dataset Filtering
+    st.subheader("Filter Dataset")
+
+    # Columns for filtering
+    columns = suicide_data.columns.tolist()
+    selected_column = st.selectbox("Select a column to filter:", columns)
+
+    # Select unique values in the column for filtering
+    unique_values = suicide_data[selected_column].unique()
+    selected_values = st.multiselect(f"Filter by {selected_column}:", unique_values)
+
+    # Apply filter if values are selected
+    if selected_values:
+        filtered_data = suicide_data[suicide_data[selected_column].isin(selected_values)]
+        st.write("Filtered Dataset:")
+        st.dataframe(filtered_data)
+    else:
+        st.write("Original Dataset:")
+        st.dataframe(suicide_data)
 
     # Summary statistics
     st.subheader("Summary Statistics")
     st.write(suicide_data.describe())
+
 # Page 2: Visualizations
 elif page == "Visualizations":
     st.title("Data Visualizations")
@@ -101,22 +120,40 @@ elif page == "Visualizations":
         "**Hypothesis:** Twitter's initial growth was driven by widespread adoption of social media platforms during this period. "
         "Fluctuations may reflect market saturation or competition."
     )
-
-    # Facebook User Growth Over the Years
+    # Updated Facebook User Growth Over the Years
     st.subheader("Facebook User Growth Over the Years")
+
+    # Extract relevant data
+    facebook_growth = suicide_data['Facebook user count % change since 2010']
+
+    # Create the bar chart
     plt.figure(figsize=(10, 6))
-    plt.plot(
-        suicide_data['year'],
-        suicide_data['Facebook user count % change since 2010'],
-        label="Facebook User Growth (%)",
-        color='orange'
+    plt.bar(
+        suicide_data['year'],  # Use years for the x-axis
+        facebook_growth,  # Use Facebook growth data for the y-axis
+        color='orange',
+        edgecolor='black',
+        alpha=0.8,
+        label="Facebook User Growth (%)"
     )
-    plt.title("Facebook User Growth Over the Years", fontsize=14)
-    plt.xlabel("Year", fontsize=12)
-    plt.ylabel("Percentage", fontsize=12)
-    plt.grid(True)
-    plt.legend()
+    plt.title("Facebook User Growth Percentage Change Since 2010", fontsize=16, fontweight='bold', color='darkblue')
+    plt.xlabel("Year", fontsize=14, color='darkgreen')
+    plt.ylabel("Percentage Change", fontsize=14, color='darkgreen')
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.grid(axis='y', linestyle="--", alpha=0.5)
+
+    # Add horizontal line for mean value
+    mean_value = facebook_growth.mean()
+    plt.axhline(mean_value, color='blue', linestyle='--', linewidth=2, label=f"Mean Growth: {mean_value:.2f}")
+
+    # Add legend
+    plt.legend(fontsize=12, loc='upper left')
+
+    # Display the plot
     st.pyplot(plt)
+
+    # Add comments and hypotheses
     st.markdown("**Comments:** The graph shows a moderate increase during the whole period.")
     st.markdown(
         "**Hypothesis:** Facebook's steady growth suggests market saturation and competition from other platforms, limiting sharper growth."
