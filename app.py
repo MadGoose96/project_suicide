@@ -88,7 +88,6 @@ elif page == "Visualizations":
         suicide_data['year'],
         suicide_data['Twitter user count % change since 2010'],
         label="Twitter User Growth (%)",
-        marker='o',
         color='purple'
     )
     plt.title("Twitter User Growth Over the Years", fontsize=14)
@@ -110,7 +109,6 @@ elif page == "Visualizations":
         suicide_data['year'],
         suicide_data['Facebook user count % change since 2010'],
         label="Facebook User Growth (%)",
-        marker='o',
         color='orange'
     )
     plt.title("Facebook User Growth Over the Years", fontsize=14)
@@ -124,33 +122,6 @@ elif page == "Visualizations":
         "**Hypothesis:** Facebook's steady growth suggests market saturation and competition from other platforms, limiting sharper growth."
     )
 
-    # Facebook vs. Twitter User Growth Comparison
-    st.subheader("Facebook vs. Twitter User Growth")
-    plt.figure(figsize=(10, 6))
-    plt.plot(
-        suicide_data['year'],
-        suicide_data['Twitter user count % change since 2010'],
-        label="Twitter User Growth (%)",
-        marker='o',
-        color='purple'
-    )
-    plt.plot(
-        suicide_data['year'],
-        suicide_data['Facebook user count % change since 2010'],
-        label="Facebook User Growth (%)",
-        marker='s',
-        color='orange'
-    )
-    plt.title("Facebook vs. Twitter User Growth Over the Years", fontsize=14)
-    plt.xlabel("Year", fontsize=12)
-    plt.ylabel("Percentage", fontsize=12)
-    plt.grid(True)
-    plt.legend()
-    st.pyplot(plt)
-    st.markdown(
-        "**Hypothesis:** Twitter likely attracted users with its unique format and real-time interaction appeal but faced challenges maintaining growth. "
-        "Facebook's global reach and feature integration contributed to its steady growth."
-    )
 
 # Page 3: Analysis
 elif page == "Analysis":
@@ -182,6 +153,32 @@ elif page == "Analysis":
     st.markdown("**Comments:** The graph shows two trends: a consistent increase in the total social media growth and a much steeper rise in the social media impact score over the years.")
     st.markdown("**Hypothesis:** The total social media growth reflects the increasing user base, while the sharp rise in impact score indicates the intensifying influence of social media on society during this period.")
 
+
+    # Facebook vs. Twitter User Growth Comparison
+    st.subheader("Facebook vs. Twitter User Growth")
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        suicide_data['year'],
+        suicide_data['Twitter user count % change since 2010'],
+        label="Twitter User Growth (%)",
+        color='purple'
+    )
+    plt.plot(
+        suicide_data['year'],
+        suicide_data['Facebook user count % change since 2010'],
+        label="Facebook User Growth (%)",
+        color='orange'
+    )
+    plt.title("Facebook vs. Twitter User Growth Over the Years", fontsize=14)
+    plt.xlabel("Year", fontsize=12)
+    plt.ylabel("Percentage", fontsize=12)
+    plt.grid(True)
+    plt.legend()
+    st.pyplot(plt)
+    st.markdown(
+        "**Hypothesis:** Twitter likely attracted users with its unique format and real-time interaction appeal but faced challenges maintaining growth. "
+        "Facebook's global reach and feature integration contributed to its steady growth."
+    )
 
 # Page 4: Fancy Graph
 elif page == "Fancy Graph":
