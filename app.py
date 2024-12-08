@@ -86,24 +86,47 @@ elif page == "Visualizations":
 elif page == "Analysis":
     st.title("Data Analysis")
 
-    # Combined Trends
+    # Combined Trends with Improved Visualization
     st.subheader("Combined Social Media Trends Over the Years")
-    plt.figure(figsize=(12, 6))
-    sns.lineplot(data=suicide_data, x="year", y="Total social media growth", label="Total Growth", color="green")
-    sns.lineplot(data=suicide_data, x="year", y="Social Media Impact Score", label="Impact Score", color="blue")
-    plt.title("Social Media Growth and Impact Trends")
-    plt.xlabel("Year")
-    plt.ylabel("Score")
-    plt.legend()
-    plt.grid(True)
-    st.pyplot(plt)
+    fig, ax1 = plt.subplots(figsize=(12, 6))
 
-    # Year Filtering Example
-    st.subheader("Filter Data by Year")
-    min_year = st.slider("Select Minimum Year", int(suicide_data["year"].min()), int(suicide_data["year"].max()), step=1)
-    filtered_data = suicide_data[suicide_data["year"] >= min_year]
-    st.write(f"Filtered Data from Year {min_year}:")
-    st.dataframe(filtered_data)
+    # Plot the blue line for Impact Score
+    ax1.plot(
+        suicide_data["year"],
+        suicide_data["Social Media Impact Score"],
+        label="Impact Score",
+        color="blue",
+        linewidth=2,
+    )
+    ax1.set_xlabel("Year", fontsize=12)
+    ax1.set_ylabel("Impact Score", fontsize=12, color="blue")
+    ax1.tick_params(axis="y", labelcolor="blue")
+    ax1.grid(True, linestyle="--", alpha=0.5)
+
+    # Create a second y-axis for Total Growth
+    ax2 = ax1.twinx()
+    ax2.plot(
+        suicide_data["year"],
+        suicide_data["Total social media growth"],
+        label="Total Growth",
+        color="green",
+        linewidth=2,
+    )
+    ax2.set_ylabel("Total Social Media Growth", fontsize=12, color="green")
+    ax2.tick_params(axis="y", labelcolor="green")
+
+    # Add title and legend
+    fig.suptitle("Social Media Growth and Impact Trends", fontsize=14)
+    fig.tight_layout()
+    st.pyplot(fig)
+
+    # Add comment
+    st.markdown(
+        "This graph illustrates the social media trends over the years. The **blue line** represents the "
+        "Social Media Impact Score, which shows significant growth, and the **green line** represents the "
+        "Total Social Media Growth. To make the trends more readable, a secondary axis for Total Growth has been added."
+    )
+
 
 # Page 4: Fancy Graph
 elif page == "Fancy Graph":
