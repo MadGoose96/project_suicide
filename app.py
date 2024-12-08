@@ -82,39 +82,21 @@ elif page == "Visualizations":
         "This could be due to Facebook's broader user base and potential for both positive and negative mental health impacts."
     )
 
-    # Total Social Media Growth Over the Years
-    st.subheader("Total Social Media Growth Over the Years")
-    plt.figure(figsize=(12, 6))
-    sns.lineplot(x=suicide_data["year"], y=suicide_data["Total social media growth"], color="green")
-    plt.title("Total Social Media Growth Over the Years", fontsize=14)
-    plt.xlabel("Year", fontsize=12)
-    plt.ylabel("Total Growth", fontsize=12)
-    plt.grid(True, linestyle="--", alpha=0.5)
-    st.pyplot(plt)
-
-    # Add comment
-    st.markdown(
-        "This graph shows the total growth of social media platforms over the years, reflecting increasing user engagement."
-    )
-
 # Page 3: Analysis
 elif page == "Analysis":
     st.title("Data Analysis")
 
-    # Social Media Impact Score Over the Years
-    st.subheader("Social Media Impact Score Over the Years")
+    # Combined Trends
+    st.subheader("Combined Social Media Trends Over the Years")
     plt.figure(figsize=(12, 6))
-    sns.lineplot(x=suicide_data["year"], y=suicide_data["Social Media Impact Score"], color="blue")
-    plt.title("Social Media Impact Score Over the Years", fontsize=14)
-    plt.xlabel("Year", fontsize=12)
-    plt.ylabel("Impact Score", fontsize=12)
-    plt.grid(True, linestyle="--", alpha=0.5)
+    sns.lineplot(data=suicide_data, x="year", y="Total social media growth", label="Total Growth", color="green")
+    sns.lineplot(data=suicide_data, x="year", y="Social Media Impact Score", label="Impact Score", color="blue")
+    plt.title("Social Media Growth and Impact Trends")
+    plt.xlabel("Year")
+    plt.ylabel("Score")
+    plt.legend()
+    plt.grid(True)
     st.pyplot(plt)
-
-    # Add comment
-    st.markdown(
-        "This graph showcases the calculated impact score of social media platforms over the years, reflecting their influence."
-    )
 
     # Year Filtering Example
     st.subheader("Filter Data by Year")
@@ -172,4 +154,13 @@ elif page == "Fancy Graph":
     st.markdown(
         "The combined graph shows a comparison between Twitter and Facebook user growth against suicide rates, "
         "illustrating how user trends on different platforms might correlate with societal factors."
+    )
+
+    # Add conclusion
+    st.subheader("Conclusion")
+    st.markdown(
+        "The growth of social media platforms, with Twitter experiencing rapid initial growth followed by fluctuations and "
+        "Facebook showing steady, moderate growth, appears to have a potential correlation with changes in suicide rates. "
+        "This suggests that social media may influence mental health trends, reflecting both positive effects, such as increased "
+        "connectivity, and negative effects, such as cyberbullying or social comparison."
     )
