@@ -156,21 +156,32 @@ elif page == "Visualizations":
 elif page == "Analysis":
     st.title("Data Analysis")
 
-    # Social Media Trends with Dual Axis
-    st.subheader("Social Media Trends Over the Years")
-    fig, ax1 = plt.subplots(figsize=(10, 6))
-    ax2 = ax1.twinx()
-    ax1.plot(suicide_data['year'], suicide_data['Total social media growth'],
-             label="Total Growth (%)", color='green')
-    ax2.plot(suicide_data['year'], suicide_data['Social Media Impact Score'],
-             label="Impact Score", color='blue')
+    # Combined Trends
+    st.subheader("Combined Social Media Trends Over the Years")
+    fig, ax1 = plt.subplots(figsize=(12, 6))
+
+    # Plot Total Growth on primary y-axis
+    sns.lineplot(data=suicide_data, x="year", y="Total social media growth", ax=ax1, label="Total Growth", color="green")
     ax1.set_xlabel("Year", fontsize=12)
-    ax1.set_ylabel("Total Growth (%)", fontsize=12)
-    ax2.set_ylabel("Impact Score", fontsize=12)
-    ax1.legend(loc="upper left")
-    ax2.legend(loc="upper right")
-    plt.title("Social Media Growth and Impact Trends", fontsize=14)
+    ax1.set_ylabel("Total Growth (Score)", fontsize=12, color="green")
+    ax1.tick_params(axis="y", labelcolor="green")
+    ax1.grid(True, linestyle="--", alpha=0.5)
+
+    # Plot Impact Score on secondary y-axis
+    ax2 = ax1.twinx()
+    sns.lineplot(data=suicide_data, x="year", y="Social Media Impact Score", ax=ax2, label="Impact Score", color="blue")
+    ax2.set_ylabel("Impact Score", fontsize=12, color="blue")
+    ax2.tick_params(axis="y", labelcolor="blue")
+
+    # Add title and legend
+    plt.title("Combined Social Media Trends Over the Years", fontsize=14)
+    fig.legend(loc="upper left", bbox_to_anchor=(0.1, 0.9), fontsize=10)
     st.pyplot(fig)
+
+    # Add comments and hypothesis
+    st.markdown("**Comments:** The graph shows two trends: a consistent increase in the total social media growth and a much steeper rise in the social media impact score over the years.")
+    st.markdown("**Hypothesis:** The total social media growth reflects the increasing user base, while the sharp rise in impact score indicates the intensifying influence of social media on society during this period.")
+
 
 # Page 4: Fancy Graph
 elif page == "Fancy Graph":
